@@ -48,8 +48,8 @@ This project is a decentralized voting system built using the Internet Computer 
 1. **Clone the Repository**
 
     ```bash
-    git clone https://github.com/yourusername/voting-system-icp.git
-    cd voting-system-icp
+    https://github.com/ankur-JA/Voting_System_ICP_Blockchain.git
+    cd Voting_System_ICP_Blockchain
     ```
 
 2. **Install Dependencies**
