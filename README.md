@@ -1,127 +1,59 @@
-# Voting System Using ICP Blockchain
+# `Voting`
 
-## Overview
+Welcome to your new `Voting` project and to the Internet Computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
 
-This project is a decentralized voting system built using the Internet Computer Protocol (ICP). It allows users to cast votes and view results in real-time. The system utilizes Motoko for the backend and React for the frontend, providing a seamless experience for managing and querying voting data.
+To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
 
-## Features
+To learn more before you start working with `Voting`, see the following documentation available online:
 
-- **Decentralized Voting**: Utilize the ICP blockchain to ensure votes are securely and transparently recorded.
-- **Real-Time Results**: View voting results in real-time with automatic updates every 5 seconds.
-- **Single Vote Per IP**: Ensure that each IP address can only vote once to prevent multiple votes from a single source.
+- [Quick Start](https://internetcomputer.org/docs/current/developer-docs/setup/deploy-locally)
+- [SDK Developer Tools](https://internetcomputer.org/docs/current/developer-docs/setup/install)
+- [Motoko Programming Language Guide](https://internetcomputer.org/docs/current/motoko/main/motoko)
+- [Motoko Language Quick Reference](https://internetcomputer.org/docs/current/motoko/main/language-manual)
 
-## Technologies Used
+If you want to start working on your project right away, you might want to try the following commands:
 
-- **Internet Computer Protocol (ICP)**: Blockchain platform for deploying and running the voting system.
-- **Motoko**: Programming language used for the backend logic on ICP.
-- **React**: Frontend framework for creating the user interface.
-- **JavaScript**: For frontend interactivity and communication with the ICP backend.
+```bash
+cd Voting/
+dfx help
+dfx canister --help
+```
 
-## Project Structure
+## Running the project locally
 
-### Backend
+If you want to test your project locally, you can use the following commands:
 
-- **`main.mo`**: The main Motoko file containing the backend logic for the voting system. Includes:
-  - Casting votes
-  - Retrieving results
-  - IP-based voting restrictions
+```bash
+# Starts the replica, running in the background
+dfx start --background
 
-### Frontend
+# Deploys your canisters to the replica and generates your candid interface
+dfx deploy
+```
 
-- **`App.js`**: Main React component handling:
-  - Voting form
-  - Fetching and displaying voting results
-  - Real-time updates with polling
+Once the job completes, your application will be available at `http://localhost:4943?canisterId={asset_canister_id}`.
 
-- **`index.css`**: Stylesheet for the frontend UI.
+If you have made changes to your backend canister, you can generate a new candid interface with
 
-## Installation
+```bash
+npm run generate
+```
 
-### Prerequisites
+at any time. This is recommended before starting the frontend development server, and will be run automatically any time you run `dfx deploy`.
 
-- [Node.js](https://nodejs.org/) and npm (Node Package Manager)
-- [Dfinity SDK](https://sdk.dfinity.org/docs/quickstart/quickstart.html) for deploying ICP canisters
-- [Rust](https://www.rust-lang.org/), if building Motoko from source
+If you are making frontend changes, you can start a development server with
 
-### Setup
+```bash
+npm start
+```
 
-1. **Clone the Repository**
+Which will start a server at `http://localhost:8080`, proxying API requests to the replica at port 4943.
 
-    ```bash
-    https://github.com/ankur-JA/Voting_System_ICP_Blockchain.git
-    cd Voting_System_ICP_Blockchain
-    ```
+### Note on frontend environment variables
 
-2. **Install Dependencies**
+If you are hosting frontend code somewhere without using DFX, you may need to make one of the following adjustments to ensure your project does not fetch the root key in production:
 
-    Navigate to the frontend directory and install the dependencies:
-
-    ```bash
-    cd frontend
-    npm install
-    ```
-
-3. **Build and Deploy the Backend**
-
-    Ensure you have `dfx` installed and configured. Build and deploy the backend canister:
-
-    ```bash
-    dfx build
-    dfx deploy
-    ```
-
-4. **Start the Frontend**
-
-    Run the React development server:
-
-    ```bash
-    npm start
-    ```
-
-    The frontend should now be accessible at `http://localhost:3000`.
-
-## Usage
-
-1. **Access the Voting System**
-
-    Open the frontend in your web browser and use the provided interface to cast your vote and view results.
-
-2. **Cast a Vote**
-
-    - Select a candidate by clicking the radio button.
-    - Click the "Cast Vote" button to submit your vote.
-
-3. **View Results**
-
-    Results are displayed automatically, updated every 5 seconds.
-
-## API Endpoints
-
-- **`/castVote`**: Casts a vote for a specified candidate.
-  - **Method**: `POST`
-  - **Parameters**:
-    - `topic`: The candidate's name
-    - `vote`: Number of votes (typically `1`)
-
-- **`/getResults`**: Retrieves the current voting results.
-  - **Method**: `GET`
-  - **Returns**: A list of candidates and their vote counts.
-
-## Contributing
-
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-branch`).
-3. Commit your changes (`git commit -am 'Add new feature'`).
-4. Push to the branch (`git push origin feature-branch`).
-5. Create a new Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-For any questions or issues, please contact:
-
-- **Your Name** - [rajankur1802@gmail](rajankur1802@gmail)
-- **GitHub** - [https://github.com/ankur-JA](https://github.com/ankur-JA)
+- set`DFX_NETWORK` to `ic` if you are using Webpack
+- use your own preferred method to replace `process.env.DFX_NETWORK` in the autogenerated declarations
+  - Setting `canisters -> {asset_canister_id} -> declarations -> env_override to a string` in `dfx.json` will replace `process.env.DFX_NETWORK` with the string in the autogenerated declarations
+- Write your own `createActor` constructor
